@@ -53,10 +53,14 @@ public class Diplomv4Application {
             userService.saveRole(new Role(null, "ROLE_SUPER_ADMIN"));
 
 
-            userService.saveUser(new AppUser(null, "John Travolta", "adyurkov", "None", true, "1234", "anton@anton.ru", new ArrayList<>()));
-            userService.saveUser(new AppUser(null, "John Travolta", "will", "None", true, "1234", "anton@anton.ru", new ArrayList<>()));
-            userService.saveUser(new AppUser(null, "John Travolta", "jim", "None", true, "1234", "anton@anton.ru", new ArrayList<>()));
-            userService.saveUser(new AppUser(null, "John Travolta", "arnold", "None", true, "1234", "anton@anton.ru", new ArrayList<>()));
+            final AppUser user1 = new AppUser(null, "John Travolta", "adyurkov", "None", true, "1234", "anton@anton.ru", new ArrayList<>());
+            userService.saveUser(user1);
+            final AppUser user2 = new AppUser(null, "John Travolta", "will", "None", true, "1234", "anton@anton.ru", new ArrayList<>());
+            userService.saveUser(user2);
+            final AppUser user3 = new AppUser(null, "John Travolta", "jim", "None", true, "1234", "anton@anton.ru", new ArrayList<>());
+            userService.saveUser(user3);
+            final AppUser user4 = new AppUser(null, "John Travolta", "arnold", "None", true, "1234", "anton@anton.ru", new ArrayList<>());
+            userService.saveUser(user4);
 
 
             userService.addRoleToUser("adyurkov", "ROLE_USER");
@@ -72,12 +76,18 @@ public class Diplomv4Application {
                         Arrays.stream(Countries.values()).forEach(country -> countryRepository.save(
                                 new Country(null, country.name(), location1)));
                     });
-            CustomMap map1 = new CustomMap(UUID.randomUUID(), "Map#1", CustomMapType.ECONOMICAL, List.of(Countries.ICELAND));
-            CustomMap map2 = new CustomMap(UUID.randomUUID(), "Map#2", CustomMapType.ECONOMICAL, List.of(Countries.ICELAND, Countries.IRELAND));
+            CustomMap map1 = new CustomMap(UUID.randomUUID(), "Map#1", CustomMapType.ECONOMICAL, List.of(Countries.ICELAND), user1);
+            CustomMap map2 = new CustomMap(UUID.randomUUID(), "Map#2", CustomMapType.ECONOMICAL, List.of(Countries.ICELAND, Countries.IRELAND), user2);
+            CustomMap map3 = new CustomMap(UUID.randomUUID(), "Map#3", CustomMapType.ECONOMICAL, List.of(Countries.ICELAND, Countries.IRELAND, Countries.UKRAINE), user3);
+            CustomMap map4 = new CustomMap(UUID.randomUUID(), "Map#4", CustomMapType.ECONOMICAL, List.of(Countries.ICELAND, Countries.IRELAND, Countries.UKRAINE, Countries.RUSSIA), user4);
+            CustomMap map5 = new CustomMap(UUID.randomUUID(), "Map#5", CustomMapType.POLITICAL, List.of(Countries.ICELAND, Countries.IRELAND, Countries.UKRAINE, Countries.RUSSIA, Countries.UNITEDSTATES), user2);
 
             mapService.saveMap(map1);
             mapService.saveMap(map2);
-            // CustomMap map1 = new CustomMap(UUID.randomUUID(), CustomMapType.ECONOMICAL);
+            mapService.saveMap(map3);
+            mapService.saveMap(map4);
+            mapService.saveMap(map5);
+
         };
     }
 }

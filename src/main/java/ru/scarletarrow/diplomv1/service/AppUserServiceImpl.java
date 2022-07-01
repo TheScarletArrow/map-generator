@@ -55,7 +55,7 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
     public void addRoleToUser(String username, String rolename) {
         AppUser user = appUserRepository.findByUsername(username);
         Role role = roleRepository.findByName(rolename);
-        user.getRoleList().add(role);
+        user.getRoles().add(role);
     }
 
     @Override @Transactional
@@ -75,7 +75,7 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         AppUser user = appUserRepository.findByUsername(username);
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        user.getRoleList().forEach(role -> {
+        user.getRoles().forEach(role -> {
             authorities.add(new SimpleGrantedAuthority(role.getName()));
         });
         return new User(user.getUsername(), user.getPassword(), authorities);

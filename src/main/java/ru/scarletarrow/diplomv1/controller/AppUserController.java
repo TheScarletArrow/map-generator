@@ -77,7 +77,7 @@ public class AppUserController {
                         .withSubject(user.getUsername())
                         .withExpiresAt(dateTime.toDate())
                         .withIssuer(request.getRequestURL().toString())
-                        .withClaim("roles", user.getRoleList().stream().map(Role::getName).collect(Collectors.toList()))
+                        .withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
                         .sign(algorithm);
 
                 Map<String, String> tokens = new HashMap<>();

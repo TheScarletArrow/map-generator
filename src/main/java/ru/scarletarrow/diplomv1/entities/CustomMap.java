@@ -21,6 +21,8 @@ public final class CustomMap {
 
     @ElementCollection
     private List<Countries> countries;
+    @OneToOne
+    private AppUser owner;
 
     public UUID uuid() {
         return uuid;

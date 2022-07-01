@@ -1,0 +1,13 @@
+type Map {
+    uuid: ID!
+    mapType: MapType
+    mapName: String
+    countries: [Country]
+    owner: AppUser
+}
+enum MapType {
+    POLITICAL,
+    ECONOMICAL,
+    SOCIAL,
+    MILITARY
+}

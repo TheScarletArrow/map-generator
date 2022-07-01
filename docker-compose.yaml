@@ -18,7 +18,7 @@ services:
 
   diploma1:
     container_name: diploma1
-    image: sha256:a3fde0ddef0780e7b0795cd78caacf1bfac334bcd55b03975992d5075866ef37
+    image: diploma:latest
     #sha256:99715675bb1551622e6615498d7bdf2e4b2e0c745b66b7698879d187736a6fa9
     ports:
       - "8080:8080"

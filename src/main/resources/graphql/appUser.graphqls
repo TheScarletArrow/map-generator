@@ -1,0 +1,17 @@
+type AppUser {
+    id: ID!
+    name: String
+    username: String
+    middleName: String
+    isVerified: Boolean
+    password: String
+    email: String
+    roles: [Role]
+    maps: [Map]
+
+}
+
+type Role {
+    id: ID!
+    name: String
+}
