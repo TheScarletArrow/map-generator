@@ -25,6 +25,18 @@ services:
     depends_on:
       - postgresql
 #    network_mode: samla
+    restart: always
+
+  maps:
+    container_name: maps
+    image: maps:latest
+    ports:
+      - "8181:8181"
+    depends_on:
+      - postgresql
+      - diploma1
+    restart: always
+
 
 networks:
   samla:

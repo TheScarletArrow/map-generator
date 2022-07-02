@@ -1,20 +1,38 @@
 package ru.scarletarrow.diplomv1.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
-@Data
+@Getter
+@Setter
+@RequiredArgsConstructor
 @NoArgsConstructor
 //@Table(name = "app_user", schema = "diplom")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//@ToString(exclude = "maps")
 public class AppUser {
+    @Override
+    public String toString() {
+        return "AppUser{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", username='" + username + '\'' +
+                ", middleName='" + middleName + '\'' +
+                ", isVerified=" + isVerified +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", roles=" + roles +
+                '}';
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -33,7 +51,8 @@ public class AppUser {
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
+    @ToString.Exclude
     private List<CustomMap> maps = new ArrayList<>();
     public AppUser(Long id, String name, String username, String middleName, Boolean isVerified, String email) {
         this.id = id;
@@ -53,5 +72,18 @@ public class AppUser {
         this.password = password;
         this.email = email;
         this.roles = roleList;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        AppUser user = (AppUser) o;
+        return id != null && Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

@@ -1,9 +1,7 @@
 type Query{
-    authors: [Author]
-    authorById(id: ID!):Author
-    books: [Book]
-    bookById(id: ID!):Book
+
     maps: [Map]
+    mapsByOwner(id: ID!): [Map]
     countries: [Country]
     mapTypes: [MapType]
     users: [AppUser]
@@ -15,9 +13,5 @@ type Query{
 
 
 
-
-type Mutation{
-    addBook(book: BookInput): Book
-}
 
 

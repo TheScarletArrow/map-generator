@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.scarletarrow.diplomv1.entities.AppUser;
 import ru.scarletarrow.diplomv1.entities.Role;
+import ru.scarletarrow.diplomv1.repository.MapRepository;
 import ru.scarletarrow.diplomv1.service.AppUserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +38,26 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class AppUserController {
     @Autowired @Qualifier("AppUserServiceImpl")
     private AppUserService userService;
+
+    @Autowired
+    private MapRepository mapRepository;
+    @GetMapping("/void")
+    public void add(){
+        AppUser user1 = userService.getUser("adyurkov");
+        AppUser user2 = userService.getUser("will");
+        AppUser user3 = userService.getUser("jim");
+        AppUser user4 = userService.getUser("arnold");
+
+        user1.getMaps().addAll(mapRepository.findByOwner_Id(user1.getId()));
+        user2.getMaps().addAll(mapRepository.findByOwner_Id(user2.getId()));
+        user3.getMaps().addAll(mapRepository.findByOwner_Id(user3.getId()));
+        user4.getMaps().addAll(mapRepository.findByOwner_Id(user4.getId()));
+
+        userService.saveUser(user1);
+        userService.saveUser(user2);
+        userService.saveUser(user3);
+        userService.saveUser(user4);
+    }
 
     @GetMapping("/v1/users")
     public ResponseEntity<List<AppUser>> getUsers(){

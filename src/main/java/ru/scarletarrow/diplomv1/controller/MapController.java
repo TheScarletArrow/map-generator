@@ -1,23 +1,32 @@
 package ru.scarletarrow.diplomv1.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+import ru.scarletarrow.diplomv1.entities.Countries;
 import ru.scarletarrow.diplomv1.entities.CustomMap;
-import ru.scarletarrow.diplomv1.service.MapService;
 
-import java.util.List;
 
 @Controller(value = "MapController")
 public class MapController {
 
-    @Autowired
-    private MapService mapService;
+
+    RestTemplate http = new RestTemplate();
 
     @QueryMapping
-    public Iterable<CustomMap> maps() {
-        return mapService.getMaps();
+    public CustomMap[] maps() {
+        return http.getForObject("http://maps:8181/api/v1/maps", CustomMap[].class);
+    }
+
+    @QueryMapping
+    public Countries[] countries(){
+        return http.getForObject("http://maps:8181/api/v1/countries", Countries[].class);
+    }
+
+
+    @QueryMapping
+    public CustomMap[] mapsByOwner(@Argument Long id){
+        return http.getForObject("http://maps:8181/api/v1/maps/owner/" + id, CustomMap[].class);
     }
 }

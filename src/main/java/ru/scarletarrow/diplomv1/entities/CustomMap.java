@@ -1,8 +1,6 @@
 package ru.scarletarrow.diplomv1.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,10 +8,21 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public final class CustomMap {
+    @Override
+    public String toString() {
+        return "CustomMap{" +
+                "uuid=" + uuid +
+                ", mapName='" + mapName + '\'' +
+                ", mapType=" + mapType +
+                ", countries=" + countries +
+                '}';
+    }
+
     @Id
     private UUID uuid;
     private String mapName;
@@ -24,13 +33,7 @@ public final class CustomMap {
     @OneToOne
     private AppUser owner;
 
-    public UUID uuid() {
-        return uuid;
-    }
 
-    public CustomMapType mapType() {
-        return mapType;
-    }
 
 
 
