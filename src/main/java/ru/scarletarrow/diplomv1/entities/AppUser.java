@@ -1,5 +1,6 @@
 package ru.scarletarrow.diplomv1.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -14,7 +15,6 @@ import java.util.Objects;
 @Getter
 @Setter
 @RequiredArgsConstructor
-@NoArgsConstructor
 //@Table(name = "app_user", schema = "diplom")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 //@ToString(exclude = "maps")
@@ -53,6 +53,7 @@ public class AppUser {
 
     @OneToMany(fetch = FetchType.LAZY)
     @ToString.Exclude
+    @JsonIgnore
     private List<CustomMap> maps = new ArrayList<>();
     public AppUser(Long id, String name, String username, String middleName, Boolean isVerified, String email) {
         this.id = id;

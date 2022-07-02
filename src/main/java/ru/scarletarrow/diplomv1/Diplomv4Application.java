@@ -28,8 +28,7 @@ public class Diplomv4Application {
     }
 
     @Bean
-    CommandLineRunner run(AppUserService userService,
-                            MapRepository mapRepository)  {
+    CommandLineRunner run(AppUserService userService)  {
         return args -> {
 
 
