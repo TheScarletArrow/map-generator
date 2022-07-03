@@ -26,7 +26,8 @@ public final class CustomMap {
     @Id
     private UUID uuid;
     private String mapName;
-    private CustomMapType mapType;
+    @OneToOne
+    private CustomMapTypeClass mapType;
 
     @ElementCollection
     private List<Countries> countries;

@@ -22,10 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -41,8 +38,34 @@ public class AppUserController {
 
     @Autowired
     private MapRepository mapRepository;
-    @GetMapping("/void")
+    @GetMapping("/void1")
+    public void voidMethod() {
+
+        userService.saveRole(new Role(null, "ROLE_USER"));
+        userService.saveRole(new Role(null, "ROLE_MANAGER"));
+        userService.saveRole(new Role(null, "ROLE_ADMIN"));
+        userService.saveRole(new Role(null, "ROLE_SUPER_ADMIN"));
+
+
+        final AppUser user1 = new AppUser(null, "John Travolta", "adyurkov", "None", true, "1234", "anton@anton.ru", new ArrayList<>());
+        userService.saveUser(user1);
+        final AppUser user2 = new AppUser(null, "John Travolta", "will", "None", true, "1234", "anton@anton.ru", new ArrayList<>());
+        userService.saveUser(user2);
+        final AppUser user3 = new AppUser(null, "John Travolta", "jim", "None", true, "1234", "anton@anton.ru", new ArrayList<>());
+        userService.saveUser(user3);
+        final AppUser user4 = new AppUser(null, "John Travolta", "arnold", "None", true, "1234", "anton@anton.ru", new ArrayList<>());
+        userService.saveUser(user4);
+
+
+        userService.addRoleToUser("adyurkov", "ROLE_USER");
+        userService.addRoleToUser("will", "ROLE_MANAGER");
+        userService.addRoleToUser("jim", "ROLE_ADMIN");
+        userService.addRoleToUser("adyurkov", "ROLE_SUPER_ADMIN");
+        userService.addRoleToUser("arnold", "ROLE_ADMIN");
+        userService.addRoleToUser("arnold", "ROLE_USER");    }
+    @GetMapping("/void2")
     public void add(){
+
         AppUser user1 = userService.getUser("adyurkov");
         AppUser user2 = userService.getUser("will");
         AppUser user3 = userService.getUser("jim");
