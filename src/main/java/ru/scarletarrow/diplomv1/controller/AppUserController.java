@@ -33,11 +33,13 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController(value = "AppUserController")
 @RequestMapping("/api/")
 public class AppUserController {
-    @Autowired @Qualifier("AppUserServiceImpl")
+    @Autowired
+    @Qualifier("AppUserServiceImpl")
     private AppUserService userService;
 
     @Autowired
     private MapRepository mapRepository;
+
     @GetMapping("/void1")
     public void voidMethod() {
 
@@ -62,39 +64,24 @@ public class AppUserController {
         userService.addRoleToUser("jim", "ROLE_ADMIN");
         userService.addRoleToUser("adyurkov", "ROLE_SUPER_ADMIN");
         userService.addRoleToUser("arnold", "ROLE_ADMIN");
-        userService.addRoleToUser("arnold", "ROLE_USER");    }
-    @GetMapping("/void2")
-    public void add(){
-
-        AppUser user1 = userService.getUser("adyurkov");
-        AppUser user2 = userService.getUser("will");
-        AppUser user3 = userService.getUser("jim");
-        AppUser user4 = userService.getUser("arnold");
-
-        user1.getMaps().addAll(mapRepository.findByOwner_Id(user1.getId()));
-        user2.getMaps().addAll(mapRepository.findByOwner_Id(user2.getId()));
-        user3.getMaps().addAll(mapRepository.findByOwner_Id(user3.getId()));
-        user4.getMaps().addAll(mapRepository.findByOwner_Id(user4.getId()));
-
-        userService.saveUser(user1);
-        userService.saveUser(user2);
-        userService.saveUser(user3);
-        userService.saveUser(user4);
+        userService.addRoleToUser("arnold", "ROLE_USER");
     }
 
+
+
     @GetMapping("/v1/users")
-    public ResponseEntity<List<AppUser>> getUsers(){
-        return  ResponseEntity.ok().body(userService.getUsers());
+    public ResponseEntity<List<AppUser>> getUsers() {
+        return ResponseEntity.ok().body(userService.getUsers());
     }
 
     @PostMapping("/v1/users")
-    public ResponseEntity<AppUser> saveUser(@RequestBody AppUser user){
+    public ResponseEntity<AppUser> saveUser(@RequestBody AppUser user) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/users").toUriString());
         return ResponseEntity.created(uri).body(userService.saveUser(user));
     }
 
     @PostMapping("/v1/usersaddRole")
-    public ResponseEntity<?> addRoleToUser(@RequestBody RoleToUsername form){
+    public ResponseEntity<?> addRoleToUser(@RequestBody RoleToUsername form) {
         userService.addRoleToUser(form.getUserName(), form.getRoleName());
         return ResponseEntity.ok().build();
     }
@@ -141,8 +128,9 @@ public class AppUserController {
             throw new RuntimeException("Refresh token is missing");
         }
     }
+
     @Data
-    static class RoleToUsername{
+    static class RoleToUsername {
         private String userName;
         private String roleName;
     }
