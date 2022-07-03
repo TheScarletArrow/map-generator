@@ -18,7 +18,7 @@ public final class CustomMap {
         return "CustomMap{" +
                 "uuid=" + uuid +
                 ", mapName='" + mapName + '\'' +
-                ", mapType=" + mapType +
+                ", mapType=" + customMapTypeClass +
                 ", countries=" + countries +
                 '}';
     }
@@ -27,7 +27,7 @@ public final class CustomMap {
     private UUID uuid;
     private String mapName;
     @OneToOne
-    private CustomMapTypeClass mapType;
+    private CustomMapTypeClass customMapTypeClass;
 
     @ElementCollection
     private List<Countries> countries;

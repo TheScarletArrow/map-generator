@@ -1,13 +1,11 @@
 type Map {
     uuid: ID!
-    mapType: MapType
+    customMapTypeClass: CustomMapTypeClass
     mapName: String
     countries: [Country]
     owner: AppUser
 }
-enum MapType {
-    POLITICAL,
-    ECONOMICAL,
-    SOCIAL,
-    MILITARY
+type CustomMapTypeClass {
+   uuid: ID!
+   customMapType: String
 }
