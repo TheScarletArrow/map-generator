@@ -2,7 +2,7 @@ type Query{
 
     maps: [Map]
     mapsByOwner(id: ID!): [Map]
-    countries: [Country]
+    countries(limit: Int, offset:Int): [Country]
     mapTypes: [MapType]
     users: [AppUser]
     roles: [Role]
