@@ -10,8 +10,10 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 public class ExceptionsHandler {
 
-    @ExceptionHandler(RuntimeException.class)
-    ResponseEntity<ErrorResponse> parse(Exception e){
+    @ExceptionHandler({UserNotFoundException.class,
+            BadRequestException.class, NotFoundException.class,
+            NotAuthorizedException.class})
+    ResponseEntity<ErrorResponse> parse(Exception e) {
         final HttpStatus badRequest = HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(badRequest)
                 .body(
