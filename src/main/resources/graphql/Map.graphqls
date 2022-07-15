@@ -6,6 +6,6 @@ type Map {
     owner: AppUser
 }
 type CustomMapTypeClass {
-   uuid: ID!
+   id: ID!
    customMapType: String
 }

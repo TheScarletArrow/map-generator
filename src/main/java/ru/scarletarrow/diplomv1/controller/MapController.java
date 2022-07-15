@@ -57,20 +57,7 @@ public class MapController {
         var body = responseBody.string();
         String access_token = body.substring(body.indexOf("access_token") + 15, body.indexOf(",") - 1);
 
-//
-//        HttpClient client = HttpClient.newHttpClient();
-//        Map<String, String> parameters = new HashMap<>();
-//        parameters.put("username", "adyurkov");
-//        parameters.put("password", "1234");
-//        String form = parameters.entrySet()
-//                .stream()
-//                .map(e -> e.getKey() + "=" + URLEncoder.encode(e.getValue(), StandardCharsets.UTF_8))
-//                .collect(Collectors.joining("&"));
-//        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/login"))
-//                .headers("Content-Type", "application/x-www-form-urlencoded")
-//                .POST(HttpRequest.BodyPublishers.ofString(form)).build();
-//        HttpResponse<?> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-//        var body = response.body().toString();
+
 
         MediaType mediaType1 = MediaType.parse("text/plain");
         RequestBody requestBody1 = RequestBody.create("", mediaType1);
@@ -82,10 +69,7 @@ public class MapController {
         var response1 = client.newCall(request1).execute();
         var body1 = response1.body().string();
 
-//        HttpRequest request1 = HttpRequest.newBuilder().uri(URI.create("http://maps:8181/api/v1/maps/owner/" + id))
-//                .header("Authorization", "Bearer " + access_token)
-//                .GET().build();
-//        HttpResponse<?> response1 = client.send(request1, HttpResponse.BodyHandlers.ofString());
+
         ObjectMapper mapper = new ObjectMapper();
 
         return switch (response1.code()) {
@@ -95,21 +79,7 @@ public class MapController {
             case 404 -> throw new NotFoundException();
             case 500 -> throw new RuntimeException();
             default -> null;
-//        if (response1.code() == 200)
-//            return mapper.readValue(body1, CustomMap[].class);
-//        if (response1.code()== HttpStatus.UNAUTHORIZED.value()){
-//            throw new NotAuthorizedException();
-//        }
-//        if (response1.code()== HttpStatus.NOT_FOUND.value()){
-//            throw new NotFoundException();
-//        }
-//        if (response1.code()== HttpStatus.BAD_REQUEST.value()){
-//            throw new BadRequestException();
-//        }
-//        if (response1.code()== HttpStatus.INTERNAL_SERVER_ERROR.value()){
-//            throw new RuntimeException();
-//        }
-//                    null;
+
         };
     }
 }

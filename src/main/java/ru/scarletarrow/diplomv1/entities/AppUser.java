@@ -15,9 +15,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @RequiredArgsConstructor
-//@Table(name = "app_user", schema = "diplom")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-//@ToString(exclude = "maps")
 public class AppUser {
     @Override
     public String toString() {

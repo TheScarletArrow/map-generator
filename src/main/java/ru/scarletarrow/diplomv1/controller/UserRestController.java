@@ -32,7 +32,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController(value = "AppUserController")
 @RequestMapping("/api/")
-public class AppUserController {
+public class UserRestController {
     @Autowired
     @Qualifier("AppUserServiceImpl")
     private AppUserService userService;

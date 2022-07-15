@@ -23,9 +23,11 @@ import java.util.List;
 @Service(value = "AppUserServiceImpl")
 @Slf4j
 public class AppUserServiceImpl implements AppUserService, UserDetailsService {
-    @Autowired @Qualifier("AppUserRepository")
+    @Autowired
+    @Qualifier("AppUserRepository")
     private AppUserRepository appUserRepository;
-    @Autowired @Qualifier("RoleRepository")
+    @Autowired
+    @Qualifier("RoleRepository")
     private  RoleRepository roleRepository;
     @Autowired
     private  PasswordEncoder passwordEncoder;
@@ -75,9 +77,7 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         AppUser user = appUserRepository.findByUsername(username);
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        user.getRoles().forEach(role -> {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
-        });
+        user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));
         return new User(user.getUsername(), user.getPassword(), authorities);
     }
 }
