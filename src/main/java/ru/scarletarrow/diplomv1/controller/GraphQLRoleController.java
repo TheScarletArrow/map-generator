@@ -7,7 +7,7 @@ import ru.scarletarrow.diplomv1.entities.Role;
 import ru.scarletarrow.diplomv1.repository.RoleRepository;
 
 @Controller
-public class RoleGraphQLController {
+public class GraphQLRoleController {
 
     @Autowired
     RoleRepository repository;

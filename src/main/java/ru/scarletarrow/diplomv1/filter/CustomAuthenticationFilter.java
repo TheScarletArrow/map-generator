@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.joda.time.DateTime;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -44,21 +45,20 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         User user = (User) authResult.getPrincipal();
         Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
         Date date = new Date();
-        DateTime today = new DateTime(date).plusDays(1);
-        DateTime dateTime = new DateTime(date).plusHours(3);
+        DateTime plusDay1 = new DateTime(date).plusDays(1);
+        DateTime plusDays30 = new DateTime(date).plusDays(30);
         String access_token = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(today.toDate())
+                .withExpiresAt(plusDay1.toDate())
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);
         String refresh_token = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(dateTime.toDate())
+                .withExpiresAt(plusDays30.toDate())
                 .withIssuer(request.getRequestURL().toString())
                 .sign(algorithm);
-//        response.setHeader("access_token", access_token);
-//        response.setHeader("refresh_token", refresh_token);
+
         Map<String, String> tokens = new HashMap<>();
         tokens.put("access_token", access_token);
         tokens.put("refresh_token", refresh_token);

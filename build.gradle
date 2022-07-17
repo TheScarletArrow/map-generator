@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'ru.scarletarrow'
-version = '0.0.28'
+version = '0.0.29'
 sourceCompatibility = "16"
 
 configurations {
@@ -36,7 +36,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     implementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework:spring-webflux'
-    implementation 'org.springframework.graphql:spring-graphql-test'
+        implementation 'org.springframework.graphql:spring-graphql-test'
     implementation 'org.springframework.security:spring-security-test'
     implementation 'joda-time:joda-time:2.10.14'
     implementation 'com.auth0:java-jwt:3.19.2'

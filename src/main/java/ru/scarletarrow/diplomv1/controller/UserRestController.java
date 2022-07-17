@@ -37,8 +37,6 @@ public class UserRestController {
     @Qualifier("AppUserServiceImpl")
     private AppUserService userService;
 
-    @Autowired
-    private MapRepository mapRepository;
 
     @GetMapping("/void1")
     public void voidMethod() {

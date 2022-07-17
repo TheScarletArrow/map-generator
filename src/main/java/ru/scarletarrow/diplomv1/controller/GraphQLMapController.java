@@ -5,7 +5,6 @@ import okhttp3.*;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.client.RestTemplate;
 import ru.scarletarrow.diplomv1.entities.Countries;
@@ -20,7 +19,7 @@ import java.util.Arrays;
 
 
 @Controller(value = "MapController")
-public class MapController {
+public class GraphQLMapController {
 
 
     RestTemplate http = new RestTemplate();
