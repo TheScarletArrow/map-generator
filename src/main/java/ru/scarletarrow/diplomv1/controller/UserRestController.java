@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.scarletarrow.diplomv1.entities.AppUser;
 import ru.scarletarrow.diplomv1.entities.Role;
-import ru.scarletarrow.diplomv1.repository.MapRepository;
 import ru.scarletarrow.diplomv1.service.AppUserService;
 
 import javax.servlet.http.HttpServletRequest;

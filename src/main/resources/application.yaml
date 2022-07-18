@@ -1,7 +1,7 @@
 spring:
   datasource:
     url: jdbc:postgresql://postgresql:5432/sample
-#    url: jdbc:mysql://localhost:3306/sample
+    #    url: jdbc:mysql://localhost:3306/sample
     driverClassName: org.postgresql.Driver
     username: postgres
     password: qwerty
@@ -25,5 +25,7 @@ voyager:
     enabled: true
 
 application:
-  security:
-    secret: secretScarletH!NtSTheR@wT0L!ghTwHeNtheD4rKD!eS
+  jwt:
+    secretKey: secretScarletH!NtSTheR@wT0L!ghTwHeNtheD4rKD!eSsecretScarletH!NtSTheR@wT0L!ghTwHeNtheD4rKD!eSsecretScarletH!NtSTheR@wT0L!ghTwHeNtheD4rKD!eS
+    tokenPrefix: Bearer
+    tokenExpirationAfterDays: 21
