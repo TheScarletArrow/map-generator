@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.scarletarrow.diplomv1.entities.AppUser;
 import ru.scarletarrow.diplomv1.entities.Role;
+import ru.scarletarrow.diplomv1.exception.UserNotFoundException;
 import ru.scarletarrow.diplomv1.repository.AppUserRepository;
 import ru.scarletarrow.diplomv1.repository.RoleRepository;
 
@@ -19,6 +20,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Service(value = "AppUserServiceImpl")
 @Slf4j
@@ -70,6 +72,17 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
 
     public List<AppUser> getUsers() {
         return appUserRepository.findAll();
+    }
+
+    @Override
+    public AppUser getUserById(Long id) {
+        var optionalUser = appUserRepository.findById(id);
+        return optionalUser.orElseThrow(()->new UserNotFoundException("User with id " + id + " not found"));
+    }
+
+    @Override
+    public boolean existsByUsername(String username) {
+        return appUserRepository.existsByUsername(username);
     }
 
     @Override @Transactional

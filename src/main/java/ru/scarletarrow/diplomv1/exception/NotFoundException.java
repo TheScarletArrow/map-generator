@@ -2,7 +2,7 @@ package ru.scarletarrow.diplomv1.exception;
 
 public class NotFoundException extends RuntimeException {
     public NotFoundException() {
-        System.out.println(12321);
+
     }
 
     public NotFoundException(String message) {

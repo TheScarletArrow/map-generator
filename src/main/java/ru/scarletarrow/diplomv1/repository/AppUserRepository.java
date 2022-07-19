@@ -9,4 +9,6 @@ import ru.scarletarrow.diplomv1.entities.AppUser;
 public interface AppUserRepository extends JpaRepository<AppUser, Long> {
     AppUser findByUsername(String username);
 
+    boolean existsByUsername(String username);
+
 }

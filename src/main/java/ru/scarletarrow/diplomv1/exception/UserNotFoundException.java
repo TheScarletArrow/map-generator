@@ -1,9 +1,7 @@
 package ru.scarletarrow.diplomv1.exception;
 
 public class UserNotFoundException extends RuntimeException {
-    public UserNotFoundException() {
-        System.out.println(12321);
-    }
+    public UserNotFoundException() {}
 
     public UserNotFoundException(String message) {
         super(message);

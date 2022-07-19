@@ -28,8 +28,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.FORBIDDEN;
+import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 
@@ -40,8 +39,8 @@ public class UserRestController {
     @Qualifier("AppUserServiceImpl")
     private AppUserService userService;
 
-@Autowired
-private RoleRepository roleRepository;
+    @Autowired
+    private RoleRepository roleRepository;
     private final JwtConfig jwtConfig;
 
     public UserRestController(JwtConfig jwtConfig, JwtSecretKey jwtSecretKey) {
@@ -84,6 +83,11 @@ private RoleRepository roleRepository;
                 "1212",
                 "anton20001701@yandex.ru",
                 List.of(roleRepository.findByName("ROLE_USER")));
+        HashMap<String, String> map = new HashMap<>();
+        map.put("error", "User with this username already exists");
+        if(userService.existsByUsername(user.getUsername())){
+            return ResponseEntity.status(BAD_REQUEST).body(map);
+        }
         return ResponseEntity.status(CREATED).body(userService.saveUser(user));
 
     }
@@ -103,6 +107,10 @@ private RoleRepository roleRepository;
         return ResponseEntity.ok().body(userService.getUsers());
     }
 
+    @GetMapping("/v1/users/{id}")
+    public ResponseEntity<AppUser> getUser(@PathVariable("id") Long id) {
+        return ResponseEntity.ok().body(userService.getUserById(id));
+    }
     @PostMapping("/v1/users")
     public ResponseEntity<AppUser> saveUser(@RequestBody AppUser user) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/users").toUriString());
