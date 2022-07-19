@@ -12,6 +12,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import ru.scarletarrow.diplomv1.security.JwtConfig;
+import ru.scarletarrow.diplomv1.security.JwtSecretKey;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -28,8 +30,11 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
 
-    public CustomAuthenticationFilter(AuthenticationManager authenticationManager) {
+    private final JwtConfig jwtConfig;
+
+    public CustomAuthenticationFilter(AuthenticationManager authenticationManager, JwtConfig jwtConfig) {
         this.authenticationManager = authenticationManager;
+        this.jwtConfig = jwtConfig;
     }
 
     @Override
@@ -51,9 +56,9 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException {
         User user = (User) authResult.getPrincipal();
-        Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+        Algorithm algorithm = Algorithm.HMAC256(jwtConfig.getSecretKey().getBytes());
         Date date = new Date();
-        DateTime plusDay1 = new DateTime(date).plusDays(1);
+        DateTime plusDay1 = new DateTime(date).plusDays(jwtConfig.getTokenExpirationAfterDays());
         DateTime plusDays30 = new DateTime(date).plusDays(30);
         String access_token = JWT.create()
                 .withSubject(user.getUsername())

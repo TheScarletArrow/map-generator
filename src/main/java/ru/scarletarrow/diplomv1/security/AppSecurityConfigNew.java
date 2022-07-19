@@ -26,13 +26,15 @@ import static org.springframework.http.HttpMethod.POST;
 @Configuration
 public class AppSecurityConfigNew  {
     public AppSecurityConfigNew(PasswordEncoder bCryptPasswordEncoder,
-                               UserDetailsService userDetailsService) {
+                                UserDetailsService userDetailsService, JwtConfig jwtConfig, JwtSecretKey jwtSecretKey) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.userDetailsService = userDetailsService;
+        this.jwtConfig = jwtConfig;
     }
 
     private final PasswordEncoder bCryptPasswordEncoder;
     private final UserDetailsService userDetailsService;
+    private final JwtConfig jwtConfig;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -41,7 +43,7 @@ public class AppSecurityConfigNew  {
         builder.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
         var authenticationManager = builder.build();
 
-        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManager);
+        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManager, jwtConfig);
 
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -57,7 +59,7 @@ public class AppSecurityConfigNew  {
         http.authorizeRequests().anyRequest().permitAll();
         http.authenticationManager(authenticationManager);
         http.addFilter(customAuthenticationFilter);
-        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new CustomAuthorizationFilter(jwtConfig), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.scarletarrow.diplomv1.entities.AppUser;
 import ru.scarletarrow.diplomv1.entities.Role;
+import ru.scarletarrow.diplomv1.security.JwtConfig;
+import ru.scarletarrow.diplomv1.security.JwtSecretKey;
 import ru.scarletarrow.diplomv1.service.AppUserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +38,12 @@ public class UserRestController {
     @Qualifier("AppUserServiceImpl")
     private AppUserService userService;
 
+
+    private final JwtConfig jwtConfig;
+
+    public UserRestController(JwtConfig jwtConfig, JwtSecretKey jwtSecretKey) {
+        this.jwtConfig = jwtConfig;
+    }
 
     @GetMapping("/void1")
     public void voidMethod() {
@@ -89,7 +97,7 @@ public class UserRestController {
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             try {
                 String refresh_token = authorizationHeader.substring("Bearer ".length());
-                Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+                Algorithm algorithm = Algorithm.HMAC256(jwtConfig.getSecretKey().getBytes());
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = verifier.verify(refresh_token);
 
