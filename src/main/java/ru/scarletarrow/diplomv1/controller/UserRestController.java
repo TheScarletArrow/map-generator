@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.scarletarrow.diplomv1.entities.AppUser;
 import ru.scarletarrow.diplomv1.entities.Role;
+import ru.scarletarrow.diplomv1.repository.RoleRepository;
 import ru.scarletarrow.diplomv1.security.JwtConfig;
 import ru.scarletarrow.diplomv1.security.JwtSecretKey;
 import ru.scarletarrow.diplomv1.service.AppUserService;
@@ -27,6 +28,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -38,7 +40,8 @@ public class UserRestController {
     @Qualifier("AppUserServiceImpl")
     private AppUserService userService;
 
-
+@Autowired
+private RoleRepository roleRepository;
     private final JwtConfig jwtConfig;
 
     public UserRestController(JwtConfig jwtConfig, JwtSecretKey jwtSecretKey) {
@@ -54,13 +57,13 @@ public class UserRestController {
         userService.saveRole(new Role(null, "ROLE_SUPER_ADMIN"));
 
 
-        final AppUser user1 = new AppUser(null, "John Travolta", "adyurkov", "None", true, "1234", "anton@anton.ru", new ArrayList<>());
+        final AppUser user1 = new AppUser(null, "John Travolta", "adyurkov", "None",  "1234", "anton@anton.ru", new ArrayList<>());
         userService.saveUser(user1);
-        final AppUser user2 = new AppUser(null, "John Travolta", "will", "None", true, "1234", "anton@anton.ru", new ArrayList<>());
+        final AppUser user2 = new AppUser(null, "John Travolta", "will", "None",  "1234", "anton@anton.ru", new ArrayList<>());
         userService.saveUser(user2);
-        final AppUser user3 = new AppUser(null, "John Travolta", "jim", "None", true, "1234", "anton@anton.ru", new ArrayList<>());
+        final AppUser user3 = new AppUser(null, "John Travolta", "jim", "None",  "1234", "anton@anton.ru", new ArrayList<>());
         userService.saveUser(user3);
-        final AppUser user4 = new AppUser(null, "John Travolta", "arnold", "None", true, "1234", "anton@anton.ru", new ArrayList<>());
+        final AppUser user4 = new AppUser(null, "John Travolta", "arnold", "None",  "1234", "anton@anton.ru", new ArrayList<>());
         userService.saveUser(user4);
 
 
@@ -71,9 +74,30 @@ public class UserRestController {
         userService.addRoleToUser("arnold", "ROLE_ADMIN");
         userService.addRoleToUser("arnold", "ROLE_USER");
     }
+    @PostMapping("/register/test")
+    public ResponseEntity<?> register(){
+        AppUser user = new AppUser(
+                null,
+                "Anton",
+                "AAAN",
+                "Yurkov",
+                "1212",
+                "anton20001701@yandex.ru",
+                List.of(roleRepository.findByName("ROLE_USER")));
+        return ResponseEntity.status(CREATED).body(userService.saveUser(user));
 
+    }
 
-
+    @PostMapping("/v1/users/register")
+    public ResponseEntity<AppUser> registerUser(@RequestBody AppUser user) {
+        userService.saveUser(user);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(user.getId())
+                .toUri();
+        return ResponseEntity.created(location).body(user);
+    }
     @GetMapping("/v1/users")
     public ResponseEntity<List<AppUser>> getUsers() {
         return ResponseEntity.ok().body(userService.getUsers());

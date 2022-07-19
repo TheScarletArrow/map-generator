@@ -27,7 +27,12 @@ public class AppUser {
                 ", isVerified=" + isVerified +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
+                ", isAccountNonExpired=" + isAccountNonExpired +
+                ", isAccountNonLocked=" + isAccountNonLocked +
+                ", isCredentialsNonExpired=" + isCredentialsNonExpired +
+                ", isEnabled=" + isEnabled +
                 ", roles=" + roles +
+                ", maps=" + maps +
                 '}';
     }
 
@@ -37,6 +42,7 @@ public class AppUser {
 
     private String name;
 
+    @Column(unique = true)
     private String username;
 
     private String middleName;
@@ -45,7 +51,10 @@ public class AppUser {
 
     private String password;
     private String email;
-
+    private  Boolean isAccountNonExpired;
+    private  Boolean isAccountNonLocked;
+    private  Boolean isCredentialsNonExpired;
+    private  Boolean isEnabled;
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
 
@@ -60,17 +69,25 @@ public class AppUser {
         this.middleName = middleName;
         this.isVerified = isVerified;
         this.email = email;
+        this.isAccountNonExpired=false;
+        this.isAccountNonLocked=false;
+        this.isCredentialsNonExpired=false;
+        this.isEnabled=true;
     }
 
-    public AppUser(Long id, String name, String username, String middleName, Boolean isVerified, String password, String email, Collection<Role> roleList) {
+    public AppUser(Long id, String name, String username,  String middleName, String password, String email, Collection<Role> roleList) {
         this.id = id;
         this.name = name;
         this.username = username;
         this.middleName = middleName;
-        this.isVerified = isVerified;
         this.password = password;
         this.email = email;
         this.roles = roleList;
+        this.isVerified = false;
+        this.isAccountNonExpired=false;
+        this.isAccountNonLocked=false;
+        this.isCredentialsNonExpired=false;
+        this.isEnabled=false;
     }
 
     @Override
@@ -83,6 +100,19 @@ public class AppUser {
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        int result = id.hashCode();
+        result = 31 * result + name.hashCode();
+        result = 31 * result + username.hashCode();
+        result = 31 * result + middleName.hashCode();
+        result = 31 * result + isVerified.hashCode();
+        result = 31 * result + password.hashCode();
+        result = 31 * result + email.hashCode();
+        result = 31 * result + isAccountNonExpired.hashCode();
+        result = 31 * result + isAccountNonLocked.hashCode();
+        result = 31 * result + isCredentialsNonExpired.hashCode();
+        result = 31 * result + isEnabled.hashCode();
+        result = 31 * result + roles.hashCode();
+        result = 31 * result + maps.hashCode();
+        return result;
     }
 }
